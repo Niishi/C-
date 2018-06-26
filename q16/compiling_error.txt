@@ -1,0 +1,4 @@
+C:\C_C++\q16\main.cpp: In function 'int main()':
+C:\C_C++\q16\main.cpp:13:13: error: invalid conversion from 'const char*' to 'int' [-fpermissive]
+     int a = "aaa";
+             ^
