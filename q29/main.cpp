@@ -7,30 +7,6 @@
 
 using namespace std;
 
-// class Resistance {
-// private:
-//     static const omega = 1;
-//     bool isEnd;
-//     bool isAnd;
-//     Resistance left;
-//     Resistance right;
-// public:
-//     Resistance(bool b)
-//         : isEnd(b)
-//     {}
-//
-//     double getValue(){
-//         if(isEnd){
-//             return omega;
-//         }else{
-//             if(isAnd){
-//                 return left.getValue() + right.getValue();
-//             }else{
-//                 return 1.0/(1.0/left.getValue() + 1.0/right.getValue());
-//             }
-//         }
-//     }
-// };
 
 typedef enum enm {
     AND,
@@ -70,31 +46,33 @@ double calc_resistance(vector<Kind>& v){
 }
 double answer = 0;
 const double GOLD = 1.6180339887;
-void set_resistance(vector<Kind>& resistances, int n, int diff){
-    if((int)(resistances).size() == 9){
+void set_resistance(vector<Kind> resistances, int n, int diff){
+    if((int)resistances.size() == 19){
         double value = calc_resistance(resistances);
         if(abs(GOLD - answer) > abs(GOLD - value)){
             answer = value;
-            cout << answer << endl;
         }
-    }
-    for(auto x : {NONE, AND, OR}){
-        if(x == NONE){
-            if(n >= 5) continue;
-            n++;
-            diff++;
-            (resistances).push_back(x);
-            set_resistance(resistances, n, diff);
-            (resistances).pop_back();
-            n--;
-            diff--;
-        }else{
-            if(diff < 1) break;
-            diff--;
-            (resistances).push_back(x);
-            set_resistance(resistances, n, diff);
-            (resistances).pop_back();
-            diff++;
+
+    }else{
+        for(auto x : {NONE, AND, OR}){
+            if(x == NONE){
+                if(n >= 10) continue;
+                n++;
+                diff++;
+                resistances.push_back(x);
+                set_resistance(resistances, n, diff);
+                resistances.pop_back();
+                n--;
+                diff--;
+            }else{
+                if(diff < 1) break;
+
+                diff--;
+                resistances.push_back(x);
+                set_resistance(resistances, n, diff);
+                resistances.pop_back();
+                diff++;
+            }
         }
     }
 }
@@ -104,7 +82,7 @@ int main(){
     resistances.push_back(NONE);
     cout << "start" << endl;
     set_resistance(resistances, 2, 2);
-
+    cout << "end" << endl;
     cout << fixed;
     cout << setprecision(10) << answer << endl;
 }
