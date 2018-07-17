@@ -19,8 +19,8 @@ vector<string> split(string strFull, string punc){
 
 int answer = 0;
 
-void addKaruta(string karuta, map<char, vector<string> > karuta_map, int n){
-    if(karuta_map[karuta[n]] == 0){
+void addKaruta(string karuta, map<char, vector<string> >& karuta_map, int n){
+    if(karuta_map.find(karuta[n]) == karuta_map.end()){
         vector<string> v;
         v.push_back(karuta);
         karuta_map[karuta[n]] = v;
@@ -29,7 +29,7 @@ void addKaruta(string karuta, map<char, vector<string> > karuta_map, int n){
     }
 }
 
-void search(map<char, vector<string> > m, int n){
+void search(map<char, vector<string> >& m, int n){
     for(auto x : m){
         answer++;
         if((int)x.second.size() > 1){
@@ -41,11 +41,16 @@ void search(map<char, vector<string> > m, int n){
         }
     }
 }
+
 int main(){
     ifstream ifs("q33.csv");
     string str;
     if(ifs.fail()){
         cerr << "失敗" << endl;
+    }
+    string a = u8"あいうえお";
+    for(auto aa : a){
+        std::cout << aa << '\n';
     }
 
     map<char, vector<string> > kaminoko_map;
@@ -59,8 +64,8 @@ int main(){
         vector<string> words = split(str, ",");
         string kaminoko = words[3];
         string simonoku = words[4];
-        addKaruta(kaminoko, kaminoko_map);
-        addKaruta(simonoku, simonoku_map);
+        addKaruta(kaminoko, kaminoko_map, 0);
+        addKaruta(simonoku, simonoku_map, 0);
     }
     search(kaminoko_map, 0);
     search(simonoku_map, 0);
